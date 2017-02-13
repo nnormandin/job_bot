@@ -119,8 +119,8 @@ def Main():
 
 
 if __name__ == "__main__":
-    email = getEmail()
-    pw = getPassword()
+    email = open('email.txt').read().strip()
+    pw = open('pw.txt').read().strip()
     browser = webdriver.Firefox()
     browser.get('https://www.linkedin.com/uas/login')
 
@@ -128,5 +128,5 @@ if __name__ == "__main__":
     emailElement = browser.find_element_by_id("session_key-login")
     emailElement.send_keys(email)
     passwordElement = browser.find_element_by_id("session_password-login")
-    passwordElement.send_keys(password)
+    passwordElement.send_keys(pw)
     passwordElement.submit()
