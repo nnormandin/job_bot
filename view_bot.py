@@ -1,5 +1,5 @@
 import os, time, re
-import urllib.parse, random, getpass
+import urllib, random, getpass
 
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
@@ -52,7 +52,7 @@ def getJobLinks(page):
 
 def getID(url):
     pURL = urllib.parse.urlparse(url)
-    return(urllib.prase.urlparse.parse_qs(pURL.query)['id'][0])()
+    return(urllib.parse.urlparse.parse_qs(pURL.query)['id'][0])()
 
 
 def ViewBot(browser):
@@ -118,5 +118,15 @@ def Main():
     browser.close()
 
 
-#if __name__ == "__main__":
-#    Main()
+if __name__ == "__main__":
+    email = getEmail()
+    pw = getPassword()
+    browser = webdriver.Firefox()
+    browser.get('https://www.linkedin.com/uas/login')
+
+
+    emailElement = browser.find_element_by_id("session_key-login")
+    emailElement.send_keys(email)
+    passwordElement = browser.find_element_by_id("session_password-login")
+    passwordElement.send_keys(password)
+    passwordElement.submit()
