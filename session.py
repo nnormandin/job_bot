@@ -18,10 +18,11 @@ class Session(object):
 		clever_type(email_element, email)
 		clever_type(pw_element, pw, submit = True)
 
-	def search_linkedin(self, text):
+	def search_linkedin(browser, text):
+
 		# find the search element
 		try:
-			searchbar = browser.find_elements_by_xpath("//div[@class='search-result__wrapper']")
+			searchbar = browser.find_element_by_xpath("//form[@id='extended-nav-search']//input")
 		except NoSuchElementException:
 			try:
 				searchbar = browser.find_element_by_xpath("//div[@class='keyword-search-form']//input")
@@ -29,5 +30,6 @@ class Session(object):
 				print('failed to find search bar!')
 				return
 
+		#return(searchbar)
 		# enter search terms
 		clever_type(searchbar, text, submit = True)

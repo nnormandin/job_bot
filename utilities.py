@@ -54,14 +54,15 @@ def initiate_linkedin(email = None, pw = None):
 	pw_element = browser.find_element_by_id("session_password-login")
 	clever_type(email_element, email)
 	clever_type(pw_element, pw, submit = True)
+	return(browser)
 
 
 # robust search utility
-def search_linkedin(text):
+def search_linkedin(browser, text):
 
 	# find the search element
 	try:
-		searchbar = browser.find_elements_by_xpath("//div[@class='search-result__wrapper']")
+		searchbar = browser.find_element_by_xpath("//form[@id='extended-nav-search']//input")
 	except NoSuchElementException:
 		try:
 			searchbar = browser.find_element_by_xpath("//div[@class='keyword-search-form']//input")
@@ -69,6 +70,7 @@ def search_linkedin(text):
 			print('failed to find search bar!')
 			return
 
+	#return(searchbar)
 	# enter search terms
 	clever_type(searchbar, text, submit = True)
 
