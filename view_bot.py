@@ -96,6 +96,13 @@ def ViewBot(browser):
         print(person)
         print("")
 
+def clever_type(element, text):
+    element.clear()
+    for c in text:
+        element.send_keys(str(c))
+        time.sleep(random.uniform(0.1,0.3))
+    element.send_keys(Keys.RETURN)
+
 def Main():
     email = getEmail()
     password = getPassword()
@@ -129,4 +136,13 @@ if __name__ == "__main__":
     passwordElement.send_keys(pw)
     passwordElement.submit()
 
+    # find searchbar from homepage
+    search = browser.find_element_by_xpath("//form[@id='extended-nav-search']//input")
+
+    search.clear()
+    search.send_keys('Marc Normandin')
+    search.send_keys(Keys.RETURN)
+
+    # find searchbar from search
+    search = browser.find_element_by_xpath("//div[@class='keyword-search-form']//input")
 
