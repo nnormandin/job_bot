@@ -146,3 +146,10 @@ if __name__ == "__main__":
     # find searchbar from search
     search = browser.find_element_by_xpath("//div[@class='keyword-search-form']//input")
 
+    # search results
+    results = browser.find_elements_by_xpath("//div[@class='search-result__wrapper']")
+    names = []
+    titles = []
+    for x in results:
+        name = x.find_element_by_xpath("//span[@class='name']").text
+        

@@ -1,3 +1,11 @@
+import os, time, re
+import urllib, random, getpass
+
+# web interaction
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+from bs4 import BeautifulSoup
+
 # find email or ask for it
 def get_email():
 	if 'email.txt' in os.listdir():
@@ -10,7 +18,7 @@ def get_email():
 # find pw or ask for it
 def get_pw():
 	if 'pw.txt' in os.listdir():
-		print('pasword located in directory\n')
+		print('password located in directory\n')
 		pw = open('pw.txt').read().strip()
 	else:
 		pw = getpass.getpass('enter password: ')
