@@ -7,15 +7,13 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from bs4 import BeautifulSoup
 
-# waits
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
+
 
 # helper functions
 from job_bot.helpers import clever_type
 from job_bot.helpers import get_email
 from job_bot.helpers import get_pw
+from job_bot.helpers import wait_a_minute
 
 class Session(object):
 	
@@ -39,9 +37,7 @@ class Session(object):
 		pw_element.submit()
 
 		# wait
-		search_button = "nav-settings__dropdown-trigger"
-		wait = WebDriverWait(self._browser, 10)
-		element = wait.until(EC.element_to_be_clickable((By.ID, str(search_button))))
+		wait_a_minute(self._browser)
 
 
 	def search_linkedin(self, text):
@@ -59,9 +55,7 @@ class Session(object):
 		# enter search terms
 		clever_type(searchbar, text, submit = True)
 
-		search_button = "nav-settings__dropdown-trigger"
-		wait = WebDriverWait(self._browser, 10)
-		element = wait.until(EC.element_to_be_clickable((By.ID, str(search_button))))
+		wait_a_minute(self._browser)
 
 	def quit_bot(self):
 		self._browser.quit()

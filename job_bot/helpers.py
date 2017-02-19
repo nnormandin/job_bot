@@ -6,6 +6,11 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from bs4 import BeautifulSoup
 
+# waits
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
 # find email or ask for it
 def get_email():
 	if 'email.txt' in os.listdir():
@@ -32,3 +37,8 @@ def clever_type(element, text, submit = False):
         time.sleep(random.uniform(0.05,0.15))
     if submit:
     	element.send_keys(Keys.RETURN)
+
+
+def wait_a_minute(browser, elementID = "nav-settings__dropdown-trigger"):
+		wait = WebDriverWait(browser, 10)
+		element = wait.until(EC.element_to_be_clickable((By.ID, str(elementID))))
