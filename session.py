@@ -13,9 +13,9 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 # helper functions
-from helpers import clever_type
-from helpers import get_email
-from helpers import get_pw
+from job_bot.helpers import clever_type
+from job_bot.helpers import get_email
+from job_bot.helpers import get_pw
 
 class Session(object):
 	
@@ -61,7 +61,7 @@ class Session(object):
 
 		search_button = "nav-settings__dropdown-trigger"
 		wait = WebDriverWait(self._browser, 10)
-		element = wait.until(EC.element_to_be_clickable(By.ID, str(search_button)))
+		element = wait.until(EC.element_to_be_clickable((By.ID, str(search_button))))
 
 	def quit_bot(self):
 		self._browser.quit()
