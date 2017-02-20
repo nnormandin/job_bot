@@ -1,21 +1,16 @@
-# base libraries
-import os, time, re
-import urllib, random, getpass
-
 # web interaction
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from bs4 import BeautifulSoup
-
-
 
 # helper functions
 from job_bot.helpers import clever_type
 from job_bot.helpers import get_email
 from job_bot.helpers import get_pw
 from job_bot.helpers import wait_a_minute
+from job_bot.search import Search
 
-class bot(object):
+class Bot(object):
 	
 	def __init__(self, email = None, pw = None):
 		
@@ -37,10 +32,11 @@ class bot(object):
 		pw_element.submit()
 
 		# wait
+		print("-- waiting for load")
 		wait_a_minute(self._browser)
 
 
-	def search_linkedin(self, text):
+	def search_linkedin(self, text, people = True):
 
 		# find the search element
 		try:
@@ -49,18 +45,30 @@ class bot(object):
 			try:
 				searchbar = self._browser.find_element_by_xpath("//div[@class='keyword-search-form']//input")
 			except:
-				print('failed to find search bar!')
+				print('-- failed to find search bar!')
 				return
 
 		# enter search terms
 		clever_type(searchbar, text, submit = True)
+		print("-- waiting for load")
+		wait_a_minute(self._browser, timeout = 30)
 
-		wait_a_minute(self._browser)
+		# nav to job or people results
+		if people:
+			path = "//button[@data-control-name='vertical_nav_people_toggle']"
+			self._browser.find_element_by_xpath(str(path)).click()
+			print("-- navigating to People results")
+		else:
+			path = "///button[@data-control-name='vertical_nav_companies_toggle']"
+			self._browser.find_element_by_xpath(str(path)).click()
+			print("-- navigating to Company results")
+			
+		return(Search(self._browser))
 
 	def quit_bot(self):
 		self._browser.quit()
 
 if __name__ == '__main__':
-	bot = bot()
+	bot = Bot()
 	bot.search_linkedin('test test test')
 	bot.quit_bot()
