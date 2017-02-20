@@ -1,5 +1,9 @@
+# base modules
 import os, time, re
 import urllib, random, getpass
+
+# Result class
+from job_bot.Result import Result
 
 # web interaction
 from selenium import webdriver
@@ -38,7 +42,36 @@ def clever_type(element, text, submit = False):
     if submit:
     	element.send_keys(Keys.RETURN)
 
-
+# wait for browser to load
 def wait_a_minute(browser, timeout = 20, elementID = "nav-settings__dropdown-trigger"):
 		wait = WebDriverWait(browser, timeout)
 		element = wait.until(EC.element_to_be_clickable((By.ID, str(elementID))))
+
+# convert search results to Result class
+def search_results(browser):
+
+	wait_a_minute(browser)
+	
+	# search paths
+	people_path = "//div[@class='search-result__wrapper']"
+	job_path = "//div[@class='job-card__content-wrapper']"
+
+	# find all search results
+	try:
+		people_results = browser.find_elements_by_xpath(str(people_path))
+	except:
+		print("-- no People found in search results")
+	try:
+		job_results = browser.find_elements_by_xpath(str(job_path))
+	except:
+		print("-- no Jobs found in search results")
+
+	out = []
+	elements = people_results + job_results
+
+	# Result objects
+	if elements:
+		for i in elements:
+			out.append(Result(i))
+
+	return(out)
