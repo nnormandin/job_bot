@@ -1,1 +1,1 @@
-from job_bot.session import Bot
+from job_bot.Bot import Bot

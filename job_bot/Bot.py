@@ -1,3 +1,5 @@
+# Bot class
+
 import time
 
 # web interaction
@@ -10,7 +12,7 @@ from job_bot.helpers import clever_type
 from job_bot.helpers import get_email
 from job_bot.helpers import get_pw
 from job_bot.helpers import wait_a_minute
-from job_bot.search import Search
+from job_bot.Search import Search
 
 class Bot(object):
 	
@@ -63,9 +65,9 @@ class Bot(object):
 			self._browser.find_element_by_xpath(str(path)).click()
 			print("-- navigating to People results")
 		else:
-			path = "///button[@data-control-name='vertical_nav_companies_toggle']"
+			path = "///button[@data-control-name='vertical_nav_jobs_toggle']"
 			self._browser.find_element_by_xpath(str(path)).click()
-			print("-- navigating to Company results")
+			print("-- navigating to Jobs results")
 
 		return(Search(self._browser))
 
