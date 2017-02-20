@@ -15,7 +15,7 @@ from job_bot.helpers import get_email
 from job_bot.helpers import get_pw
 from job_bot.helpers import wait_a_minute
 
-class Session(object):
+class bot(object):
 	
 	def __init__(self, email = None, pw = None):
 		
@@ -61,6 +61,6 @@ class Session(object):
 		self._browser.quit()
 
 if __name__ == '__main__':
-	bot = Session()
+	bot = bot()
 	bot.search_linkedin('test test test')
 	bot.quit_bot()
