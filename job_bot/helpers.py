@@ -51,7 +51,7 @@ def wait_a_minute(browser, timeout = 20, elementID = "nav-settings__dropdown-tri
 def search_results(browser):
 
 	wait_a_minute(browser)
-	
+
 	# search paths
 	people_path = "//div[@class='search-result__wrapper']"
 	job_path = "//div[@class='job-card__content-wrapper']"
@@ -72,6 +72,9 @@ def search_results(browser):
 	# Result objects
 	if elements:
 		for i in elements:
-			out.append(Result(i))
+			try:
+				out.append(Result(i))
+			except:
+				print("-- error occurred")
 
 	return(out)
