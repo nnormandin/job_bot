@@ -5,9 +5,13 @@ class Search(object):
 	def __init__(self, _browser):
 		self._browser = _browser
 
-	def result(self):
 		path = "//div[@class='search-result__wrapper']"
-		self.result = self._browser.find_elements_by_xpath(str(path))
+		results = self._browser.find_elements_by_xpath(str(path))
+		out = []
+		for i in results:
+			
+
+		self.results = self._browser.find_elements_by_xpath(str(path))
 
 		#todo:
 			# move result function to init
@@ -20,5 +24,5 @@ class Search(object):
 				# scroll on page
 				# record name and occupation to log file
 
-		return(self.result)
+		return(self.results)
 

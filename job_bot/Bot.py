@@ -1,3 +1,5 @@
+import time
+
 # web interaction
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
@@ -30,6 +32,7 @@ class Bot(object):
 		clever_type(email_element, email)
 		clever_type(pw_element, pw)
 		pw_element.submit()
+		time.sleep(1.5)
 
 		# wait
 		print("-- waiting for load")
@@ -51,6 +54,7 @@ class Bot(object):
 		# enter search terms
 		clever_type(searchbar, text, submit = True)
 		print("-- waiting for load")
+		time.sleep(1.5)
 		wait_a_minute(self._browser, timeout = 30)
 
 		# nav to job or people results
@@ -62,7 +66,7 @@ class Bot(object):
 			path = "///button[@data-control-name='vertical_nav_companies_toggle']"
 			self._browser.find_element_by_xpath(str(path)).click()
 			print("-- navigating to Company results")
-			
+
 		return(Search(self._browser))
 
 	def quit_bot(self):
