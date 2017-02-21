@@ -12,7 +12,7 @@ class Search(object):
 		self.search_term = str(text)
 
 		# browser attribute
-		self._browser = bot._browser
+		self._browser = _browser
 
 		# delay
 		time.sleep(1.5)
@@ -20,9 +20,16 @@ class Search(object):
 		# wait for load
 		wait_load(self._browser)
 		
+		out = []
+		elements = search_results(self._browser)
 
-		out = search_results(self._browser)
-			
+		if elements:
+			for i in elements:
+				try:
+					out.append(Result(i, self._browser))
+				except:
+					print("-- error occurred")
+
 		self.results = out
 
 		# print out
@@ -43,15 +50,19 @@ class Search(object):
 		# wait for load
 		wait_load(self._browser)
 
-		# delay and then recalculate search results
-		out = search_results(self._browser)
-		
-		# update self.results	
+		out = []
+		elements = search_results(self._browser)
+
+		if elements:
+			for i in elements:
+				try:
+					out.append(Result(i, self._browser))
+				except:
+					print("-- error occurred")
+
 		self.results = out
 
 		# todo:
-		# 	move result function to init
-		# 	Search.results object is list of results
 		# 	Result class provides necessary functions / attributes
 		# 		Result.name
 		# 		Result.company
