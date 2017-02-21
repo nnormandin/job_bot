@@ -43,7 +43,10 @@ class Bot(object):
 		wait_load(self._browser)
 
 
-	def search_linkedin(self, text, people = True):
+	def search(self, text, people = True):
+
+		print("\n-- searching for {}".format(text))
+
 
 		# find the search element
 		try:
@@ -73,11 +76,15 @@ class Bot(object):
 			self._browser.find_element_by_xpath(str(path)).click()
 			print("-- navigating to {} results".format(category))
 
+		# increment number of searches conducted
 		self._nsearches += 1
 
-		self.searches.append(Search(self._browser, text))
+		# put most recent search at [0]
+		self.searches.insert(0, Search(self._browser, text))
 
-		print("-- searching for {0} in {1} category".format(text, category))
+		# create or overwrite current_search parameter
+		self.current_search = self.searches[0]
+
 
 
 	def quit_bot(self):
