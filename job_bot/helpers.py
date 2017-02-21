@@ -2,9 +2,6 @@
 import os, time, re
 import urllib, random, getpass
 
-# Result class
-from job_bot.Result import Result
-
 # web interaction
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
@@ -67,21 +64,13 @@ def search_results(browser):
 	except:
 		print("-- no Jobs found in search results")
 
-	out = []
 	elements = people_results + job_results
 
-	# Result objects
-	if elements:
-		for i in elements:
-			try:
-				out.append(Result(i, browser))
-			except:
-				print("-- error occurred")
-
-	return(out)
+	return(elements)
 
 
-#def page_back(browser):
+def page_back(browser):
+	browser.execute_script("window.history.go(-1)")
 
 #def reload_page(browser):
 

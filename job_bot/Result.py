@@ -1,5 +1,6 @@
 # Result class
 import time
+
 from job_bot.helpers import *
 
 class Result(object):
@@ -19,5 +20,8 @@ class Result(object):
 
 	def visit(self, delay = 5):
 		self.name_element.click()
-		wait_load()
+		print("\n-- viewing {}".format(self.name))
+		print("-- {}".format(self.company))
+		wait_load(self._browser)
 		time.sleep(delay)
+		page_back(self._browser)
