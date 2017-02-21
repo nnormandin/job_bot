@@ -43,7 +43,7 @@ def clever_type(element, text, submit = False):
     	element.send_keys(Keys.RETURN)
 
 # wait for browser to load
-def wait_a_minute(browser, timeout = 20, elementID = "nav-settings__dropdown-trigger"):
+def wait_load(browser, timeout = 20, elementID = "nav-settings__dropdown-trigger"):
 		time.sleep(0.5)
 		wait = WebDriverWait(browser, timeout)
 		element = wait.until(EC.element_to_be_clickable((By.ID, str(elementID))))
@@ -51,7 +51,7 @@ def wait_a_minute(browser, timeout = 20, elementID = "nav-settings__dropdown-tri
 # convert search results to Result class
 def search_results(browser):
 
-	wait_a_minute(browser)
+	wait_load(browser)
 
 	# search paths
 	people_path = "//div[@class='search-result__wrapper']"
@@ -74,8 +74,15 @@ def search_results(browser):
 	if elements:
 		for i in elements:
 			try:
-				out.append(Result(i))
+				out.append(Result(i, browser))
 			except:
 				print("-- error occurred")
 
 	return(out)
+
+
+#def page_back(browser):
+
+#def reload_page(browser):
+
+#def rand_scroll(browser):

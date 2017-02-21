@@ -1,21 +1,24 @@
 # Search class
 import time
 from job_bot.Result import Result
-from job_bot.helpers import wait_a_minute, search_results
+from job_bot.helpers import *
 
 
 class Search(object):
 
-	def __init__(self, _browser):
+	def __init__(self, _browser, text):
+
+		# search term
+		self.search_term = str(text)
 
 		# browser attribute
-		self._browser = _browser
+		self._browser = bot._browser
 
-		# sleep
+		# delay
 		time.sleep(1.5)
 
 		# wait for load
-		wait_a_minute(self._browser)
+		wait_load(self._browser)
 		
 
 		out = search_results(self._browser)
@@ -23,7 +26,7 @@ class Search(object):
 		self.results = out
 
 		# print out
-		print("-- located {} results".format(len(self.results)))
+		print("\n-- located {} results".format(len(self.results)))
 
 
 	def next_page(self):
@@ -31,16 +34,20 @@ class Search(object):
 		# click the next button
 		self._browser.find_element_by_class_name("next").click()
 
+		# print out
+		print("\n-- navigating to next page")
+
 		# sleep
 		time.sleep(1.5)
 
 		# wait for load
-		wait_a_minute(self._browser)
+		wait_load(self._browser)
 
-
+		# delay and then recalculate search results
 		out = search_results(self._browser)
-			
-		self.results = out		
+		
+		# update self.results	
+		self.results = out
 
 		# todo:
 		# 	move result function to init
