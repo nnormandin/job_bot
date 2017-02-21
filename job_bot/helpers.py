@@ -44,6 +44,7 @@ def clever_type(element, text, submit = False):
 
 # wait for browser to load
 def wait_a_minute(browser, timeout = 20, elementID = "nav-settings__dropdown-trigger"):
+		time.sleep(0.5)
 		wait = WebDriverWait(browser, timeout)
 		element = wait.until(EC.element_to_be_clickable((By.ID, str(elementID))))
 
