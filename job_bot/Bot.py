@@ -1,5 +1,4 @@
 # Bot class
-
 import time
 
 # web interaction
