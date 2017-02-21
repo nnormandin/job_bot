@@ -4,13 +4,10 @@ import time
 # web interaction
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-from bs4 import BeautifulSoup
+#from bs4 import BeautifulSoup
 
 # helper functions
-from job_bot.helpers import clever_type
-from job_bot.helpers import get_email
-from job_bot.helpers import get_pw
-from job_bot.helpers import wait_a_minute
+from job_bot.helpers import *
 from job_bot.Search import Search
 
 class Bot(object):
@@ -35,9 +32,15 @@ class Bot(object):
 		pw_element.submit()
 		time.sleep(1.5)
 
+		# empty list to store search objects
+		self.searches = []
+
+		# counter of searches conducted
+		self._nsearches = 0
+
 		# wait
 		print("-- waiting for load")
-		wait_a_minute(self._browser)
+		wait_load(self._browser)
 
 
 	def search_linkedin(self, text, people = True):
@@ -56,21 +59,29 @@ class Bot(object):
 		clever_type(searchbar, text, submit = True)
 		print("-- waiting for load")
 		time.sleep(1.5)
-		wait_a_minute(self._browser, timeout = 30)
+		wait_load(self._browser, timeout = 30)
 
 		# nav to job or people results
 		if people:
+			category = "People"
 			path = "//button[@data-control-name='vertical_nav_people_toggle']"
 			self._browser.find_element_by_xpath(str(path)).click()
-			print("-- navigating to People results")
+			print("-- navigating to {} results".format(category))
 		else:
+			category = "Jobs"
 			path = "///button[@data-control-name='vertical_nav_jobs_toggle']"
 			self._browser.find_element_by_xpath(str(path)).click()
-			print("-- navigating to Jobs results")
+			print("-- navigating to {} results".format(category))
 
-		return(Search(self._browser))
+		self._nsearches += 1
+
+		self.searches.append(Search(self._browser, text))
+
+		print("-- searching for {0} in {1} category".format(text, category))
+
 
 	def quit_bot(self):
+		print("-- bot shutting down")
 		self._browser.quit()
 
 if __name__ == '__main__':
