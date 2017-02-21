@@ -12,10 +12,17 @@ you can save your email and password to text files locally (within the /job_bot 
 import job_bot as jb
 
 # start a job_bot session with selenium
-bot = jb.Session()
+bot = jb.Bot()
 
-# start interacting
-bot.search_linkedin('really cool jobs')
+# use search method on Bot class object
+search1 = bot.search_linkedin('really cool jobs')
+
+# each Search class object stores results
+len(search1.results)
+
+# each result (either a person or a job listing) is a Result class object
+search1[0].name
+search1[0].company 
 
 # more to follow
 ```
@@ -23,6 +30,6 @@ bot.search_linkedin('really cool jobs')
 # todo
 
 * conduct sequence of searches given list of search terms
-* view profiles, record name and occupation in log
-* view jobs
+* log name/company for jobs and people
 * random scrolling
+* state transition probabilities
