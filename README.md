@@ -14,15 +14,27 @@ import job_bot as jb
 # start a job_bot session with selenium
 bot = jb.Bot()
 
-# use search method on Bot class object
-search1 = bot.search_linkedin('really cool jobs')
+# search for something / someone / a job
+bot.search('data scientist')
 
-# each Search class object stores results
-len(search1.results)
+# visit the first profile in the search
+bot.current_search.visit(0)
 
-# each result (either a person or a job listing) is a Result class object
-search1[0].name
-search1[0].company 
+# or visit one of the results at random
+bot.current_search.visit()
+
+# see all of the results, and associated data
+bot.current_search.results
+bot.current_search.results[0].name
+bot.current_search.results[0].company
+
+# navigate to the next page
+bot.current_search.next_page()
+
+# go right into a new search
+bot.search('something else')
+bot.current_search.search_term
+bot.current_search.visit()
 
 # more to follow
 ```
