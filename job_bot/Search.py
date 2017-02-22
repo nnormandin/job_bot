@@ -24,7 +24,7 @@ class Search(object):
 		self.results = recalculate_results(self._browser)
 
 		# print out
-		print("\n-- located {} results".format(len(self.results)))	
+		print_log("located {} results".format(len(self.results)))	
 
 	def next_page(self):
 
@@ -32,7 +32,7 @@ class Search(object):
 		self._browser.find_element_by_class_name("next").click()
 
 		# print out
-		print("\n-- navigating to next page")
+		print_log("navigating to next page")
 
 		# sleep
 		time.sleep(1.5)
@@ -52,8 +52,8 @@ class Search(object):
 
 		u = self.results[idx]
 		u.name_element.click()
-		print("\n-- viewing {}".format(u.name))
-		print("-- {}".format(u.company))
+		print_log("viewing {}".format(u.name))
+		print_log("-- {}".format(u.company))
 		wait_load(self._browser)
 		time.sleep(delay)
 		page_back(self._browser)

@@ -17,7 +17,7 @@ class Bot(object):
 	def __init__(self, email = None, pw = None):
 		
 		# set log
-		logging.basicConfig(filename='bot.log', filemode='w', level=logging.DEBUG)
+		logging.basicConfig(filename='bot.log', filemode='w', level=logging.INFO)
 
 		# gather credentials
 		if email is None:
@@ -30,7 +30,10 @@ class Bot(object):
 			self._browser = webdriver.Firefox()
 			self._browser.get('https://www.linkedin.com/uas/login')
 		except:
-			print("-- unable to initiate connection to LinkedIn")
+			print_log("unable to initiate connection to LinkedIn")
+			return
+
+		print_log("job_bot session initiated")
 
 		# authenticate
 		email_element = self._browser.find_element_by_id("session_key-login")
@@ -53,7 +56,7 @@ class Bot(object):
 
 	def search(self, text, people = True):
 
-		print("-- searching for {}".format(text))
+		print_log("searching for {}".format(text))
 
 
 		# find the search element
@@ -63,7 +66,7 @@ class Bot(object):
 			try:
 				searchbar = self._browser.find_element_by_xpath("//div[@class='keyword-search-form']//input")
 			except:
-				print('-- failed to find search bar!')
+				print_log('failed to find search bar!')
 				return
 
 		# enter search terms
@@ -96,5 +99,5 @@ class Bot(object):
 
 
 	def quit_bot(self):
-		print("-- bot shutting down")
+		print_log("bot shutting down")
 		self._browser.quit()

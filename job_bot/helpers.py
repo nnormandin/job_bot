@@ -1,5 +1,5 @@
 # base modules
-import os, time, re
+import os, time, re, logging
 import urllib, random, getpass
 
 # web interaction
@@ -78,6 +78,9 @@ def close_tab(browser):
 
 #def select_main_tab(browser, main_tab):
 
+def print_log(event):
+	logging.info(str(event))
+	print('-- {}'.format(event))
 
 
 def page_back(browser):
