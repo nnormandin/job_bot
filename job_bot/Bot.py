@@ -14,80 +14,81 @@ from job_bot.Search import Search
 
 class Bot(object):
 
-	def __init__(self, email=None, pw=None):
+    def __init__(self, email=None, pw=None):
 
-		# set log
-		logging.basicConfig(filename='bot.log',
-							filemode='w', level=logging.INFO)
+        # set log
+        logging.basicConfig(filename='bot.log',
+                            filemode='w', level=logging.INFO)
 
-		# gather credentials
-		if email is None:
-			email = get_email()
-		if pw is None:
-			pw = get_pw()
+        # gather credentials
+        if email is None:
+            email = get_email()
+        if pw is None:
+            pw = get_pw()
 
-		# open browser
-		try:
-			self._browser = webdriver.Firefox()
-			self._browser.get('https://www.linkedin.com/uas/login')
-		except:
-			print_log("unable to initiate connection to LinkedIn")
-			return
+        # open browser
+        try:
+            self._browser = webdriver.Firefox()
+            self._browser.get('https://www.linkedin.com/uas/login')
+        except:
+            print_log("unable to initiate connection to LinkedIn")
+            return
 
-		print_log("job_bot session initiated")
+        print_log("job_bot session initiated")
 
-		# authenticate
-		email_element = self._browser.find_element_by_id("session_key-login")
-		pw_element = self._browser.find_element_by_id("session_password-login")
-		clever_type(email_element, email)
-		clever_type(pw_element, pw)
-		pw_element.submit()
-		time.sleep(1.5)
+        # authenticate
+        email_element = self._browser.find_element_by_id("session_key-login")
+        pw_element = self._browser.find_element_by_id("session_password-login")
+        clever_type(email_element, email)
+        clever_type(pw_element, pw)
+        pw_element.submit()
+        time.sleep(1.5)
 
-		# empty list to store search objects
-		self.searches = []
+        # empty list to store search objects
+        self.searches = []
 
-		# counter of searches conducted
-		self._nsearches = 0
+        # counter of searches conducted
+        self._nsearches = 0
 
-		# wait
-		print("-- waiting for load")
-		wait_load(self._browser)
+        # wait
+        print("-- waiting for load")
+        wait_load(self._browser)
 
-	def search(self, text, people=True):
+    def search(self, text, people=True):
 
-		print_log("searching for {}".format(text))
+        print_log("searching for {}".format(text))
 
-		# find the search element
-		try:
-			searchbar = self._browser.find_element_by_xpath(
-				"//form[@id='extended-nav-search']//input")
-		except:
-			try:
-				searchbar = self._browser.find_element_by_xpath(
-					"//div[@class='keyword-search-form']//input")
-			except:
-				print_log('failed to find search bar!')
-				return
+        # find the search element
+        try:
+            searchbar = self._browser.find_element_by_xpath(
+                "//form[@id='extended-nav-search']//input")
+        except:
+            try:
+                searchbar = self._browser.find_element_by_xpath(
+                    "//div[@class='keyword-search-form']//input")
+            except:
+                print_log('failed to find search bar!')
+                return
 
-		# enter search terms
-		clever_type(searchbar, text, submit=True)
-		print("-- waiting for load")
-		time.sleep(1.5)
-		wait_load(self._browser, timeout=30)
+        # enter search terms
+        clever_type(searchbar, text, submit=True)
+        print("-- waiting for load")
+        time.sleep(1.5)
+        wait_load(self._browser, timeout=30)
 
-		# nav to job or people results
-		search_category(self._browser, people)
+        # nav to job or people results
+        search_category(self._browser, people)
 
-		# increment number of searches conducted
-		self._nsearches += 1
+        # increment number of searches conducted
+        self._nsearches += 1
 
-		# put most recent search at [0]
-		self.searches.insert(0, Search(self._browser, text, people))
+        # put most recent search at [0]
+        self.searches.insert(0, Search(self._browser, text, people))
 
-		# create or overwrite current_search parameter
-		self.current_search = self.searches[0]
+        # create or overwrite current_search parameter
+        self.current_search = self.searches[0]
 
-	def quit_bot(self):
-		print_log("bot shutting down")
-		self._browser.quit()
+    # class teardown
+    def quit_bot(self):
+        print_log("bot shutting down")
+        self._browser.quit()
