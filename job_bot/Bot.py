@@ -1,23 +1,24 @@
 # Bot class
-import time, logging
+import time
+import logging
 
 # web interaction
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-#from bs4 import BeautifulSoup
 
 # helper functions
 from job_bot.helpers import *
+from job_bot.search_helpers import *
 from job_bot.Search import Search
 
 
-
 class Bot(object):
-	
-	def __init__(self, email = None, pw = None):
-		
+
+	def __init__(self, email=None, pw=None):
+
 		# set log
-		logging.basicConfig(filename='bot.log', filemode='w', level=logging.INFO)
+		logging.basicConfig(filename='bot.log',
+							filemode='w', level=logging.INFO)
 
 		# gather credentials
 		if email is None:
@@ -53,50 +54,39 @@ class Bot(object):
 		print("-- waiting for load")
 		wait_load(self._browser)
 
-
-	def search(self, text, people = True):
+	def search(self, text, people=True):
 
 		print_log("searching for {}".format(text))
 
-
 		# find the search element
 		try:
-			searchbar = self._browser.find_element_by_xpath("//form[@id='extended-nav-search']//input")
+			searchbar = self._browser.find_element_by_xpath(
+				"//form[@id='extended-nav-search']//input")
 		except:
 			try:
-				searchbar = self._browser.find_element_by_xpath("//div[@class='keyword-search-form']//input")
+				searchbar = self._browser.find_element_by_xpath(
+					"//div[@class='keyword-search-form']//input")
 			except:
 				print_log('failed to find search bar!')
 				return
 
 		# enter search terms
-		clever_type(searchbar, text, submit = True)
+		clever_type(searchbar, text, submit=True)
 		print("-- waiting for load")
 		time.sleep(1.5)
-		wait_load(self._browser, timeout = 30)
+		wait_load(self._browser, timeout=30)
 
 		# nav to job or people results
-		if people:
-			category = "People"
-			path = "//button[@data-control-name='vertical_nav_people_toggle']"
-			self._browser.find_element_by_xpath(str(path)).click()
-			print("-- navigating to {} results".format(category))
-		else:
-			category = "Jobs"
-			path = "///button[@data-control-name='vertical_nav_jobs_toggle']"
-			self._browser.find_element_by_xpath(str(path)).click()
-			print("-- navigating to {} results".format(category))
+		search_category(self._browser, people)
 
 		# increment number of searches conducted
 		self._nsearches += 1
 
 		# put most recent search at [0]
-		self.searches.insert(0, Search(self._browser, text))
+		self.searches.insert(0, Search(self._browser, text, people))
 
 		# create or overwrite current_search parameter
 		self.current_search = self.searches[0]
-
-
 
 	def quit_bot(self):
 		print_log("bot shutting down")

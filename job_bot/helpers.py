@@ -1,11 +1,16 @@
 # base modules
-import os, time, re, logging
-import urllib, random, getpass
+import os
+import time
+import re
+import logging
+import urllib
+import random
+import getpass
 
 # web interaction
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-#from bs4 import BeautifulSoup
+from selenium.common.exceptions import NoSuchElementException   
 
 # waits
 from selenium.webdriver.common.by import By
@@ -31,21 +36,25 @@ def get_pw():
 	return(pw)
 
 # by-character input with random sleep
-def clever_type(element, text, submit = False):
-    element.clear()
-    for c in text:
-        element.send_keys(str(c))
-        time.sleep(random.uniform(0.03,0.09))
-    if submit:
-    	element.send_keys(Keys.RETURN)
+def clever_type(element, text, submit=False):
+	element.clear()
+	for c in text:
+		element.send_keys(str(c))
+		time.sleep(random.uniform(0.03, 0.09))
+	if submit:
+		element.send_keys(Keys.RETURN)
 
 # wait for browser to load
-def wait_load(browser, timeout = 20, elementID = "nav-settings__dropdown-trigger"):
-		time.sleep(0.5)
-		wait = WebDriverWait(browser, timeout)
-		element = wait.until(EC.element_to_be_clickable((By.ID, str(elementID))))
+
+
+def wait_load(browser, timeout=20, elementID="nav-settings__dropdown-trigger"):
+	time.sleep(0.5)
+	wait = WebDriverWait(browser, timeout)
+	element = wait.until(EC.element_to_be_clickable((By.ID, str(elementID))))
 
 # convert search results to Result class
+
+
 def search_results(browser):
 
 	wait_load(browser)
@@ -73,10 +82,12 @@ def open_new_tab(browser, element):
 	element.send_keys(Keys.CONTROL + Keys.RETURN)
 	browser.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.TAB)
 
+
 def close_tab(browser):
 	browser.find_element_by_tag_name('body').send_keys(Keys.CONTORL + 'w')
 
-#def select_main_tab(browser, main_tab):
+# def select_main_tab(browser, main_tab):
+
 
 def print_log(event):
 	logging.info(str(event))
@@ -86,7 +97,16 @@ def print_log(event):
 def page_back(browser):
 	browser.execute_script("window.history.go(-1)")
 
-#def reload_page(browser):
 
+def reload_page(browser):
+	body = browser.find_element_by_tag_name("body")
+	body.send_keys(Keys.CONTROL + 'r')
 
-#def rand_scroll(browser):
+def result_type(element):
+	try:
+		element.find_element_by_class_name("name")
+	except NoSuchElementException:
+		return('Job')
+	return('Person') 
+
+# def rand_scroll(browser):
