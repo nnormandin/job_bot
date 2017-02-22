@@ -1,5 +1,5 @@
 # Search class
-import time, random
+import time, random, logging
 from job_bot.Result import Result
 from job_bot.helpers import *
 from job_bot.search_helpers import recalculate_results
@@ -68,9 +68,6 @@ class Search(object):
 
 		# todo:
 		# 	Result class provides necessary functions / attributes
-		# 		Result.name
-		# 		Result.company
-		# 		Result.link
 		# 		open in new tab
 		# 		scroll on page
 		# 		record name and occupation to log file

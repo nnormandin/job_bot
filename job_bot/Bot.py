@@ -1,5 +1,5 @@
 # Bot class
-import time
+import time, logging
 
 # web interaction
 from selenium import webdriver
@@ -10,10 +10,15 @@ from selenium.webdriver.common.keys import Keys
 from job_bot.helpers import *
 from job_bot.Search import Search
 
+
+
 class Bot(object):
 	
 	def __init__(self, email = None, pw = None):
 		
+		# set log
+		logging.basicConfig(filename='bot.log', filemode='w', level=logging.DEBUG)
+
 		# gather credentials
 		if email is None:
 			email = get_email()
