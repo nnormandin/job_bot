@@ -5,7 +5,7 @@ import urllib, random, getpass
 # web interaction
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-from bs4 import BeautifulSoup
+#from bs4 import BeautifulSoup
 
 # waits
 from selenium.webdriver.common.by import By
@@ -69,9 +69,21 @@ def search_results(browser):
 	return(elements)
 
 
+def open_new_tab(browser, element):
+	element.send_keys(Keys.CONTROL + Keys.RETURN)
+	browser.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.TAB)
+
+def close_tab(browser):
+	browser.find_element_by_tag_name('body').send_keys(Keys.CONTORL + 'w')
+
+#def select_main_tab(browser, main_tab):
+
+
+
 def page_back(browser):
 	browser.execute_script("window.history.go(-1)")
 
 #def reload_page(browser):
+
 
 #def rand_scroll(browser):

@@ -1,7 +1,8 @@
 # Search class
-import time
+import time, random
 from job_bot.Result import Result
 from job_bot.helpers import *
+from job_bot.search_helpers import recalculate_results
 
 
 class Search(object):
@@ -20,21 +21,10 @@ class Search(object):
 		# wait for load
 		wait_load(self._browser)
 		
-		out = []
-		elements = search_results(self._browser)
-
-		if elements:
-			for i in elements:
-				try:
-					out.append(Result(i, self._browser))
-				except:
-					print("-- error occurred")
-
-		self.results = out
+		self.results = recalculate_results(self._browser)
 
 		# print out
-		print("\n-- located {} results".format(len(self.results)))
-
+		print("\n-- located {} results".format(len(self.results)))	
 
 	def next_page(self):
 
@@ -50,17 +40,31 @@ class Search(object):
 		# wait for load
 		wait_load(self._browser)
 
-		out = []
-		elements = search_results(self._browser)
+		self.results = recalculate_results(self._browser)
 
-		if elements:
-			for i in elements:
-				try:
-					out.append(Result(i, self._browser))
-				except:
-					print("-- error occurred")
+	def visit(self, delay = 5, idx = None):
+		if not self.results:
+			print("-- no results found")
+			return
 
-		self.results = out
+		if idx == None:
+			idx = random.randrange(0, len(self.results)-1)
+
+		u = self.results[idx]
+		u.name_element.click()
+		print("\n-- viewing {}".format(u.name))
+		print("-- {}".format(u.company))
+		wait_load(self._browser)
+		time.sleep(delay)
+		page_back(self._browser)
+		time.sleep(1)
+		wait_load(self._browser)
+		self.results = recalculate_results(self._browser)
+
+	def recalculate(self):
+		wait_load(self._browser)
+		print('-- recalculating search results')
+		self.results = recalculate_results(self._browser)
 
 		# todo:
 		# 	Result class provides necessary functions / attributes

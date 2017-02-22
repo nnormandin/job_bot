@@ -1,7 +1,7 @@
 # Result class
 import time
-
 from job_bot.helpers import *
+
 
 class Result(object):
 
@@ -9,6 +9,7 @@ class Result(object):
 
 		## TODO: make this work for jobs w/ conditional
 		self._browser = browser
+		self._main_tab = self._browser.current_window_handle
 
 		# select name element and name element text
 		self.name_element = element.find_element_by_class_name("name")

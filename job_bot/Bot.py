@@ -21,8 +21,11 @@ class Bot(object):
 			pw = get_pw()
 
 		# open browser
-		self._browser = webdriver.Firefox()
-		self._browser.get('https://www.linkedin.com/uas/login')
+		try:
+			self._browser = webdriver.Firefox()
+			self._browser.get('https://www.linkedin.com/uas/login')
+		except:
+			print("-- unable to initiate connection to LinkedIn")
 
 		# authenticate
 		email_element = self._browser.find_element_by_id("session_key-login")
@@ -45,7 +48,7 @@ class Bot(object):
 
 	def search(self, text, people = True):
 
-		print("\n-- searching for {}".format(text))
+		print("-- searching for {}".format(text))
 
 
 		# find the search element
@@ -90,8 +93,3 @@ class Bot(object):
 	def quit_bot(self):
 		print("-- bot shutting down")
 		self._browser.quit()
-
-if __name__ == '__main__':
-	bot = Bot()
-	bot.search_linkedin('test test test')
-	bot.quit_bot()
