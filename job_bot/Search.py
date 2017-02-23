@@ -28,7 +28,7 @@ class Search(object):
         # wait for load
         wait_load(self._browser)
 
-        self.results = recalculate_results(self._browser)
+        self.results = recalculate_results(self._browser, self.type)
 
         # print out
         print_log("located {} results".format(len(self.results)))
@@ -47,11 +47,18 @@ class Search(object):
         # wait for load
         wait_load(self._browser)
 
-        self.results = recalculate_results(self._browser)
+        self.results = recalculate_results(self._browser, self.type)
 
     def visit(self, delay=5, idx=None):
+
+        if not verify_category(self._browser, self.type.lower()):
+            time.sleep(0.5)
+            self.recalculate()
+
         if not self.results:
             print_log("no results found")
+            time.sleep(0.5)
+            self.recalculate()
             return
 
         if idx == None:
@@ -59,14 +66,20 @@ class Search(object):
 
         u = self.results[idx]
         u.name_element.click()
-        print_log("viewing {0} ({1})".format(u.name, u.company))
-        # print_log("{}".format(u.company))
         wait_load(self._browser)
+
+        if 'search' in self._browser.current_url:
+            self.recalculate()
+            self.visit()
+            return
+
+        print_log("viewing {0} ({1})".format(u.name, u.company))
         time.sleep(delay)
+
         page_back(self._browser)
         time.sleep(1)
         wait_load(self._browser)
-        self.results = recalculate_results(self._browser)
+        self.results = recalculate_results(self._browser, self.type)
 
     def recalculate(self):
         wait_load(self._browser)
@@ -82,7 +95,7 @@ class Search(object):
             time.sleep(1)
             wait_load(self._browser)
 
-        self.results = recalculate_results(self._browser)
+        self.results = recalculate_results(self._browser, self.type)
 
         # todo:
         # 	Result class provides necessary functions / attributes

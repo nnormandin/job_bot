@@ -64,7 +64,6 @@ def wait_load(browser, timeout=20, elementID="nav-settings__dropdown-trigger"):
 def search_results(browser):
 
     wait_load(browser)
-
     # search paths
     people_path = "//div[@class='search-result__wrapper']"
     job_path = "//div[@class='job-card__content-wrapper']"
@@ -116,4 +115,21 @@ def result_type(element):
         return('Job')
     return('Person')
 
-# def rand_scroll(browser):
+
+def find_next(browser):
+    try:
+        element.find_element_by_class_name("next")
+    except:
+        return(True)
+    return(False)
+
+
+def scroll_bottom(browser):
+    y = 0
+
+    while find_next(browser):
+        browser.execute_script('window.scrollTo(0, {});'.format(y))
+        y += 20
+        if y > 6000:
+            return
+    wait_load(browser)

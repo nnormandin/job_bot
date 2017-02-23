@@ -17,8 +17,7 @@ class Bot(object):
     def __init__(self, email=None, pw=None):
 
         # set log
-        logging.basicConfig(filename='bot.log',
-                            filemode='w', level=logging.INFO)
+        logging.basicConfig(filename='bot.log', level=logging.INFO)
 
         # gather credentials
         if email is None:
@@ -54,7 +53,7 @@ class Bot(object):
         print("-- waiting for load")
         wait_load(self._browser)
 
-    def search(self, text, people=True):
+    def new_search(self, text, people=True):
 
         print_log("searching for {}".format(text))
 
@@ -78,6 +77,7 @@ class Bot(object):
 
         # nav to job or people results
         search_category(self._browser, people)
+        scroll_bottom(self._browser)
 
         # increment number of searches conducted
         self._nsearches += 1
@@ -86,7 +86,7 @@ class Bot(object):
         self.searches.insert(0, Search(self._browser, text, people))
 
         # create or overwrite current_search parameter
-        self.current_search = self.searches[0]
+        self.search = self.searches[0]
 
     # class teardown
     def quit_bot(self):
