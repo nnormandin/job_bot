@@ -53,7 +53,7 @@ class Bot(object):
         print("-- waiting for load")
         wait_load(self._browser)
 
-    def new_search(self, text, people=True):
+    def new_search(self, text, people=False):
 
         print_log("searching for {}".format(text))
 
@@ -103,3 +103,8 @@ class Bot(object):
 #       calculate results
 #           - Results
 #               click into new tab, switch tabs, {actions}, close tab, switch back
+
+# b._browser.switch_to_window(b._browser.window_handles[0])
+# out = b._browser.find_element_by_class_name("job-card__image-and-sponsored-container")
+# .find_element_by_xpath("..").get_attribute('href')
+# b._browser.execute_script("window.open('{}', 'new_window')".format(out))   

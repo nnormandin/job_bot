@@ -43,14 +43,12 @@ def search_category(browser, people=True):
         path = "//button[@data-control-name='vertical_nav_people_toggle']"
         browser.find_element_by_xpath(str(path)).click()
         wait_load(browser)
-        scroll_bottom(browser)
         print_log("navigating to {} results".format(category))
     else:
         category = 'Jobs'
         path = "//button[@data-control-name='vertical_nav_jobs_toggle']"
         browser.find_element_by_xpath(str(path)).click()
         wait_load(browser)
-        scroll_bottom(browser)
         print_log("navigating to {} results".format(category))
 
 # def load_search_terms(dir = None):

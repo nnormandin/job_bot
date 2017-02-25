@@ -58,8 +58,6 @@ def wait_load(browser, timeout=20, elementID="nav-settings__dropdown-trigger"):
     wait = WebDriverWait(browser, timeout)
     element = wait.until(EC.element_to_be_clickable((By.ID, str(elementID))))
 
-# convert search results to Result class
-
 
 def search_results(browser):
 
@@ -109,11 +107,28 @@ def reload_page(browser):
 
 
 def result_type(element):
+    if type_person(element):
+        return("Person")
+    if type_job(element):
+        return("Job")
+    else:
+        return("unknown")
+
+
+def type_person(element):
     try:
         element.find_element_by_class_name("name")
     except NoSuchElementException:
-        return('Job')
-    return('Person')
+        return(False)
+    return(True)
+
+
+def type_job(element):
+    try:
+        element.find_element_by_class_name("job-card__company-name")
+    except NoSuchElementException:
+        return(False)
+    return(True)
 
 
 def find_next(browser):
@@ -127,9 +142,11 @@ def find_next(browser):
 def scroll_bottom(browser):
     y = 0
 
-    while find_next(browser):
+    while y < 4000:
         browser.execute_script('window.scrollTo(0, {});'.format(y))
         y += 20
-        if y > 6000:
+        time.sleep(0.02)
+
+        if find_next(browser):
             return
     wait_load(browser)
