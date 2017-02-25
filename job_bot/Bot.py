@@ -92,3 +92,14 @@ class Bot(object):
     def quit_bot(self):
         print_log("bot shutting down")
         self._browser.quit()
+
+
+# rework hierarchy:
+# Bot
+#   - browser
+#   - new_search
+#   - Search
+#       type, enter, wait, select cat, wait, scroll down, scroll up
+#       calculate results
+#           - Results
+#               click into new tab, switch tabs, {actions}, close tab, switch back
