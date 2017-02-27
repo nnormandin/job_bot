@@ -15,26 +15,26 @@ import job_bot as jb
 bot = jb.Bot()
 
 # search for something / someone / a job
-bot.search('data scientist')
+bot.new_search('data scientist')
 
 # visit the first profile in the search
-bot.current_search.visit(0)
+bot.search.visit(0)
 
 # or visit one of the results at random
-bot.current_search.visit()
+bot.search.visit()
 
 # see all of the results, and associated data
-bot.current_search.results
-bot.current_search.results[0].name
-bot.current_search.results[0].company
+bot.search.results
+bot.search.results[0].name
+bot.search.results[0].company
 
 # navigate to the next page
-bot.current_search.next_page()
+bot.search.next_page()
 
 # go right into a new search
-bot.search('something else')
-bot.current_search.search_term
-bot.current_search.visit()
+bot.new_search('something else')
+bot.search.search_term
+bot.search.visit()
 
 # more to follow
 ```
@@ -42,6 +42,5 @@ bot.current_search.visit()
 # todo
 
 * conduct sequence of searches given list of search terms
-* log name/company for jobs and people
 * random scrolling
 * state transition probabilities
