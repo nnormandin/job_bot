@@ -1,3 +1,5 @@
+* work in progress *
+
 # job_bot
 
 project to automate some basic LinkedIn workflows via Python with the intent of finding interesting profiles and job opportunities. uses selenium web driver, obfuscates artificiality by generating random pauses between keystrokes and actions.
