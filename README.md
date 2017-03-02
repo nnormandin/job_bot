@@ -1,4 +1,4 @@
-* work in progress *
+*work in progress*
 
 # job_bot
 
